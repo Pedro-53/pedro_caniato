@@ -1,0 +1,23 @@
+.next-tab-btn {
+    position: absolute;
+    top: 39%;
+    right: 4.2%;
+    width: 3.5%;
+    height: 4.5%;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+}
+
+
+.prev-tab-btn {
+    position: absolute;
+    top: 39%;
+    right: 10.2%;
+    width: 3.5%;
+    height: 4.5%;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+}
+

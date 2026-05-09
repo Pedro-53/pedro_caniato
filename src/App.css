@@ -1,0 +1,89 @@
+/* ════════════════════════════════════════════════
+   App global — player layout
+   ════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* ── Player wrapper ─────────────────────────────── */
+.player-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-wrapper {
+  position: relative;
+  display: inline-block; /* envolve exatamente a imagem */
+}
+
+.player-img {
+  display: block;
+  /* Ajuste o tamanho conforme seu player.png */
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────
+   SCREEN OVERLAY
+   Ajuste top / left / width / height para encaixar
+   a tela no seu player.png.
+   ───────────────────────────────────────────────── */
+.screen-overlay {
+    position: absolute;
+    top: 12%;
+    left: 9.5%;
+    width: 72.7%;
+    height: 60%;
+    overflow: hidden;
+}
+
+/* ── Botões externos (template) ─────────────────── */
+.player-btn {
+  position: absolute;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  /* defina width, height, top, left individualmente */
+}
+
+.up-btn,
+.down-btn {
+    position: absolute;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+.up-btn img,
+.down-btn img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.up-btn {
+    top: 61%;
+    right: 11%;
+    width: 20.8%;
+}
+
+.down-btn {
+    top: 72%;
+    right: 11%;
+    width: 20.8%;
+}

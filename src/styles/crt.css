@@ -1,0 +1,271 @@
+/* ════════════════════════════════════════════════
+   CRT Green Phosphor — estética monitor antigo
+   ════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+
+:root {
+  --crt-green:     #39ff14;   /* fósforo principal */
+  --crt-green-dim: #1a7a0a;   /* texto inativo */
+  --crt-green-glow:#00ff41;   /* brilho neon */
+  --crt-bg:        #020c02;   /* fundo quase preto */
+  --crt-scanline:  rgba(0, 0, 0, 0.18);
+  --crt-border:    #0d3a0d;
+
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-crt:  'VT323', monospace;
+}
+
+/* ── Tela ─────────────────────────────────────── */
+.crt-screen {
+  background: var(--crt-bg);
+  color: var(--crt-green);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+
+  /* scanlines */
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--crt-scanline) 2px,
+    var(--crt-scanline) 4px
+  );
+}
+
+/* Ruído / vinheta de borda */
+.crt-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 60%,
+    rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Flicker sutil */
+@keyframes crt-flicker {
+  0%   { opacity: 1; }
+  92%  { opacity: 1; }
+  93%  { opacity: 0.97; }
+  94%  { opacity: 1; }
+  96%  { opacity: 0.98; }
+  100% { opacity: 1; }
+}
+.crt-screen {
+  animation: crt-flicker 8s infinite;
+}
+
+/* ── Navegação de abas ────────────────────────── */
+.crt-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--crt-green-dim);
+  padding: 6px 8px 0;
+}
+
+.crt-tab {
+  font-family: var(--font-crt);
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  color: var(--crt-green-dim);
+  background: none;
+  border: none;
+  padding: 2px 12px 4px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.15s;
+  text-transform: uppercase;
+}
+
+.crt-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.crt-tab.active {
+  color: var(--crt-green);
+  text-shadow:
+    0 0 6px var(--crt-green-glow),
+    0 0 12px var(--crt-green-glow);
+}
+
+.crt-tab.active::after {
+  background: var(--crt-green);
+  box-shadow: 0 0 6px var(--crt-green-glow);
+}
+
+.crt-tab:hover:not(.active) {
+  color: #2bcc0a;
+}
+
+/* ── Conteúdo ─────────────────────────────────── */
+.crt-content {
+  padding: 10px 12px;
+  height: calc(100% - 42px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--crt-green-dim) transparent;
+}
+
+.crt-content::-webkit-scrollbar { width: 4px; }
+.crt-content::-webkit-scrollbar-track { background: transparent; }
+.crt-content::-webkit-scrollbar-thumb { background: var(--crt-green-dim); }
+
+/* ── Tipografia ───────────────────────────────── */
+.crt-title {
+  font-family: var(--font-crt);
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: var(--crt-green);
+  text-shadow: 0 0 8px var(--crt-green-glow);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.crt-label {
+  font-family: var(--font-crt);
+  font-size: 14px;
+  color: var(--crt-green-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.crt-text {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--crt-green);
+  opacity: 0.85;
+}
+
+/* cursor piscante */
+@keyframes blink { 50% { opacity: 0; } }
+.crt-cursor::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  font-size: 0.9em;
+}
+
+/* ── Lista de músicas ─────────────────────────── */
+.crt-song-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.crt-song-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(57,255,20,0.08);
+  transition: background 0.1s;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--crt-green);
+  opacity: 0.75;
+}
+
+.crt-song-item:hover {
+  background: rgba(57,255,20,0.07);
+  opacity: 1;
+}
+
+.crt-song-item.active {
+  color: var(--crt-green);
+  opacity: 1;
+  text-shadow: 0 0 6px var(--crt-green-glow);
+  background: rgba(57,255,20,0.05);
+}
+
+.crt-song-item .song-icon {
+  font-size: 10px;
+  min-width: 14px;
+  text-align: center;
+}
+
+.crt-song-item .song-name {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ── Interesses — tags ────────────────────────── */
+.crt-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.crt-tag {
+  font-family: var(--font-crt);
+  font-size: 15px;
+  padding: 2px 8px;
+  border: 1px solid var(--crt-green-dim);
+  color: var(--crt-green-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+
+.crt-tag:hover {
+  border-color: var(--crt-green);
+  color: var(--crt-green);
+  text-shadow: 0 0 6px var(--crt-green-glow);
+  box-shadow: 0 0 6px rgba(57,255,20,0.2);
+}
+
+/* ── Sobre mim — linha de terminal ───────────── */
+.crt-line {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.crt-prompt {
+  color: var(--crt-green-dim);
+  user-select: none;
+}
+
+/* ── Separador ────────────────────────────────── */
+.crt-divider {
+  border: none;
+  border-top: 1px solid var(--crt-green-dim);
+  margin: 10px 0;
+  opacity: 0.4;
+}
+
+/* ── Volume bar ───────────────────────────────── */
+.crt-vol-bar {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.crt-vol-seg {
+  width: 6px;
+  height: 12px;
+  background: var(--crt-green-dim);
+  transition: background 0.1s, box-shadow 0.1s;
+}
+
+.crt-vol-seg.lit {
+  background: var(--crt-green);
+  box-shadow: 0 0 4px var(--crt-green-glow);
+}

@@ -17,23 +17,60 @@ import GlobalAudioPlayer from '../GlobalAudioPlayer'
  */
 export default function Music() {
 
-  const songs      = usePlayerStore((s) => s.songs)
+  const songs = usePlayerStore((s) => s.songs)
   const currentSong = usePlayerStore((s) => s.currentSong)
-  const isPlaying  = usePlayerStore((s) => s.isPlaying)
-  const volume     = usePlayerStore((s) => s.volume)
+  const isPlaying = usePlayerStore((s) => s.isPlaying)
+  const volume = usePlayerStore((s) => s.volume)
   const setCurrentSong = usePlayerStore((s) => s.setCurrentSong)
-  const play       = usePlayerStore((s) => s.play)
-  const pause      = usePlayerStore((s) => s.pause)
+  const play = usePlayerStore((s) => s.play)
+  const pause = usePlayerStore((s) => s.pause)
+  const hoveredSong = usePlayerStore((s) => s.hoveredSong)
+  const setHoveredSong = usePlayerStore((s) => s.setHoveredSong)
 
+
+  useEffect(() => {
+
+    if (songs.length === 0) return
+
+    // já existe hover
+    if (hoveredSong) return
+
+    // usa música atual
+    if (currentSong) {
+      setHoveredSong(currentSong)
+      return
+    }
+
+    // fallback → primeira música
+    setHoveredSong(songs[0])
+
+  }, [
+    songs,
+    hoveredSong,
+    currentSong,
+    setHoveredSong,
+  ])
 
   const handleSelect = (song) => {
-    if (currentSong?.url === song.url) {
-      // mesma música → toggle play/pause
-      isPlaying ? pause() : play()
-    } else {
-      setCurrentSong(song)
-      pause()
+
+    const isCurrentSong =
+      currentSong?.url === song.url
+
+    // mesma música
+    if (isCurrentSong) {
+
+      isPlaying
+        ? pause()
+        : play()
+
+      return
     }
+
+    // nova música
+    setCurrentSong(song)
+    setHoveredSong(song)
+
+    play()
   }
 
   const segments = 10
@@ -41,7 +78,7 @@ export default function Music() {
 
   return (
     <div>
-      <p className="crt-title">músicas</p>
+      <p className="crt-title">músicas favoritas</p>
       <hr className="crt-divider" />
 
       {/* Volume visual */}
@@ -70,11 +107,12 @@ export default function Music() {
         <ul className="crt-song-list">
           {songs.map((song) => {
             const active = currentSong?.url === song.url
-            // isHovered
+            const isHovered = hoveredSong?.url === song.url
+
             return (
               <li
                 key={song.url}
-                className={`crt-song-item${active ? ' active' : ''}`}
+                className={`crt-song-item${isHovered ? ' active' : ''}`}
                 onClick={() => handleSelect(song)}
               >
                 <span className="song-icon">

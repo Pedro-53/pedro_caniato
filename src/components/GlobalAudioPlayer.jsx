@@ -10,6 +10,10 @@ export default function GlobalAudioPlayer() {
     const volume = usePlayerStore((s) => s.volume)
     const pause = usePlayerStore((s) => s.pause)
 
+    const setCurrentTime = usePlayerStore((s) => s.setCurrentTime)
+
+    const setDuration = usePlayerStore((s) => s.setDuration)
+
     // ── Volume ─────────────────────────────
     useEffect(() => {
         if (!audioRef.current) return
@@ -33,7 +37,7 @@ export default function GlobalAudioPlayer() {
         if (!audioRef.current || !currentSong) return
 
         if (isPlaying) {
-            audioRef.current.play().catch(() => {})
+            audioRef.current.play().catch(() => { })
         } else {
             audioRef.current.pause()
         }
@@ -44,6 +48,14 @@ export default function GlobalAudioPlayer() {
         <audio
             ref={audioRef}
             onEnded={pause}
+
+            onTimeUpdate={(e) => {
+                setCurrentTime(e.target.currentTime)
+            }}
+
+            onLoadedMetadata={(e) => {
+                setDuration(e.target.duration)
+            }}
         />
     )
 }

@@ -33,10 +33,10 @@ export default function AboutMe() {
         <span className="crt-text" style={{ opacity: 0.7, fontStyle: 'italic' }}>
           Uma frase curta sobre você aqui.
         </span>
-
-        <img src={maracana} alt="" style={{maxWidth: 300}} />
-
       </div>
+
+        <img src={maracana} alt="" style={{width: "100%"}} />
+
     </div>
   )
 }

@@ -21,10 +21,25 @@ const usePlayerStore = create((set, get) => ({
     set({ activeTab: order[(idx - 1 + order.length) % order.length] })
   },
 
+  currentTime: 0,
+  duration: 0,
+
+  setCurrentTime: (time) =>
+    set({ currentTime: time }),
+
+  setDuration: (duration) =>
+    set({ duration }),
+
   // ── Música atual (variável global) ────────────────────────────
   // Exposta para uso externo no player físico:
   //   import usePlayerStore from './store/usePlayerStore'
   //   const currentSong = usePlayerStore(s => s.currentSong)
+  hoveredSong: null,
+
+  setHoveredSong: (song) =>
+    set({ hoveredSong: song }),
+
+
   currentSong: null,   // { name: string, url: string } | null
   setCurrentSong: (song) => set({ currentSong: song, isPlaying: false }),
 

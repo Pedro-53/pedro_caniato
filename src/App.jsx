@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import PlayerScreen from './components/PlayerScreen'
 import usePlayerStore from './store/usePlayerStore'
 import playerImg from './assets/player.png'
@@ -6,6 +6,7 @@ import PlayerButtons from './components/PlayerButtons'
 import upImg from './assets/up.png'
 import downImg from './assets/down.png'
 import GlobalAudioPlayer from './components/GlobalAudioPlayer'
+import FooterOverlay from './components/FooterOverlay'
 
 /**
  * ═══════════════════════════════════════════════════════
@@ -86,6 +87,24 @@ function buildSongList() {
   })
 }
 
+function scrollContent(direction) {
+
+  const content =
+    document.querySelector('.crt-content')
+
+  if (!content) return
+
+  const amount = 40
+
+  content.scrollBy({
+    top: direction === 'up'
+      ? -amount
+      : amount,
+
+    behavior: 'smooth',
+  })
+}
+
 
 // ─────────────────────────────────────────────────────
 export default function App() {
@@ -95,26 +114,64 @@ export default function App() {
   const currentSong = usePlayerStore((s) => s.currentSong)
   const activeTab = usePlayerStore((s) => s.activeTab)
 
-  function upBtn() {
+  const hoveredSong = usePlayerStore((s) => s.hoveredSong)
+  const setHoveredSong = usePlayerStore((s) => s.setHoveredSong)
+  const songs = usePlayerStore((s) => s.songs)
 
-    console.log('aba atual:', activeTab)
+  const holdInterval = useRef(null)
 
-    console.log(
-      'música atual:',
-      currentSong?.name ?? 'nenhuma'
-    )
+  function startHold(action) {
+
+    // executa imediatamente
+    action()
+
+    holdInterval.current = setInterval(() => {
+      action()
+    }, 120)
   }
 
+  function stopHold() {
+
+    clearInterval(holdInterval.current)
+  }
+
+  function upBtn() {
+
+    if (activeTab == 'music') {
+      const currentIndex = songs.findIndex(
+        (s) => s.url === hoveredSong?.url
+      )
+
+      const prevIndex =
+        currentIndex > 0
+          ? currentIndex - 1
+          : songs.length - 1
+
+      setHoveredSong(songs[prevIndex])
+    }
+
+    // ── OUTRAS ABAS ───────────────────
+    scrollContent('up')
+  }
 
   function downBtn() {
-    console.log("down acionado")
-    console.log('aba atual:', activeTab)
 
-    console.log(
-      'música atual:',
-      currentSong?.name ?? 'nenhuma'
-    )
-    
+    if (activeTab == 'music') {
+
+
+      const currentIndex = songs.findIndex(
+        (s) => s.url === hoveredSong?.url
+      )
+
+      const nextIndex =
+        currentIndex < songs.length - 1
+          ? currentIndex + 1
+          : 0
+
+      setHoveredSong(songs[nextIndex])
+    }
+    // ── OUTRAS ABAS ───────────────────
+    scrollContent('down')
   }
 
   /* Resolve as URLs das músicas e salva no store */
@@ -140,6 +197,9 @@ export default function App() {
           <PlayerScreen />
         </div>
 
+        <div className="footer-overlay">
+          <FooterOverlay/>
+        </div>
 
         {/* ── Posicione seus botões aqui ─────────────────
           Exemplo: */}
@@ -148,7 +208,16 @@ export default function App() {
         {/* ── UP ───────────────────────────── */}
         <button
           className="up-btn"
-          onClick={upBtn}
+
+          onMouseDown={() => startHold(upBtn)}
+
+          onMouseUp={stopHold}
+
+          onMouseLeave={stopHold}
+
+          onTouchStart={() => startHold(upBtn)}
+
+          onTouchEnd={stopHold}
         >
           <img src={upImg} alt="" draggable={false} />
         </button>
@@ -156,7 +225,16 @@ export default function App() {
         {/* ── DOWN ─────────────────────────── */}
         <button
           className="down-btn"
-          onClick={downBtn}
+
+          onMouseDown={() => startHold(downBtn)}
+
+          onMouseUp={stopHold}
+
+          onMouseLeave={stopHold}
+
+          onTouchStart={() => startHold(downBtn)}
+
+          onTouchEnd={stopHold}
         >
           <img src={downImg} alt="" draggable={false} />
         </button>

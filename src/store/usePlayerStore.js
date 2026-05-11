@@ -7,18 +7,58 @@ import { create } from 'zustand'
  */
 const usePlayerStore = create((set, get) => ({
   // ── Navegação de abas ─────────────────────────────────────────
-  activeTab: 'about', // 'about' | 'interests' | 'music'
+  activeTab: 'about', // 'about' | 'interests' | 'music' | 'disclaimer'
   setActiveTab: (tab) => set({ activeTab: tab }),
 
   nextTab: () => {
-    const order = ['about', 'interests', 'music']
+    const order = ['about', 'interests', 'music', 'disclaimer']
     const idx = order.indexOf(get().activeTab)
     set({ activeTab: order[(idx + 1) % order.length] })
   },
   prevTab: () => {
-    const order = ['about', 'interests', 'music']
+    const order = ['about', 'interests', 'music', 'disclaimer']
     const idx = order.indexOf(get().activeTab)
     set({ activeTab: order[(idx - 1 + order.length) % order.length] })
+  },
+  nextSong: () => {
+
+    const {
+      songs,
+      currentSong,
+      setCurrentSong,
+      setHoveredSong,
+      play,
+    } = get()
+
+    if (!songs.length) return
+
+    // sem música atual
+    if (!currentSong) {
+
+      setCurrentSong(songs[0])
+      setHoveredSong(songs[0])
+
+      play()
+
+      return
+    }
+
+    const currentIndex = songs.findIndex(
+      (s) => s.url === currentSong.url
+    )
+
+    const nextIndex =
+      currentIndex < songs.length - 1
+        ? currentIndex + 1
+        : 0
+
+    const nextSong = songs[nextIndex]
+
+    setCurrentSong(nextSong)
+
+    setHoveredSong(nextSong)
+
+    play()
   },
 
   currentTime: 0,

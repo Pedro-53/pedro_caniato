@@ -3,11 +3,13 @@ import AboutMe   from './tabs/AboutMe'
 import Interests from './tabs/Interests'
 import Music     from './tabs/Music'
 import '../styles/crt.css'
+import Disclaimer from './tabs/Disclaimer'
 
 const TABS = [
-  { id: 'about',     label: 'Sobre mim' },
-  { id: 'interests', label: 'Interesses' },
-  { id: 'music',     label: 'Músicas' },
+  { id: 'about',      label: 'Sobre mim' },
+  { id: 'interests',  label: 'Interesses' },
+  { id: 'music',      label: 'Músicas' },
+  { id: 'disclaimer', label: 'Disclaimer' },
 ]
 
 export default function PlayerScreen({ style = {}, className = '' }) {
@@ -18,6 +20,7 @@ export default function PlayerScreen({ style = {}, className = '' }) {
     about:     <AboutMe />,
     interests: <Interests />,
     music:     <Music />,
+    disclaimer:  <Disclaimer />,
   }
 
   return (

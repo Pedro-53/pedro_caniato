@@ -5,15 +5,15 @@
 const categories = [
   {
     label: 'tecnologia',
-    items: ['React', 'Rust', 'Web Audio API', 'Linux', 'Retrocomputing'],
+    items: ['React', 'React native', 'js', 'Golang', 'PHP', 'Apis', 'postgres', 'microsserviços'],
   },
   {
     label: 'música',
-    items: ['Jazz', 'Synthwave', 'Lo-fi', 'Música Brasileira', 'Produção'],
+    items: ['Rock', 'Eurobeat', 'jungle', 'house', 'Dnb'],
   },
   {
     label: 'outros',
-    items: ['Cinema', 'Design Gráfico', 'Open Source', 'Café'],
+    items: ['Cinema', 'Design Gráfico', 'y2k', 'viagem'],
   },
 ]
 

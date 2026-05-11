@@ -14,6 +14,7 @@ export default function GlobalAudioPlayer() {
 
     const setDuration = usePlayerStore((s) => s.setDuration)
 
+    const nextSong = usePlayerStore((s) => s.nextSong)
     // ── Volume ─────────────────────────────
     useEffect(() => {
         if (!audioRef.current) return
@@ -47,7 +48,7 @@ export default function GlobalAudioPlayer() {
     return (
         <audio
             ref={audioRef}
-            onEnded={pause}
+            onEnded={nextSong}
 
             onTimeUpdate={(e) => {
                 setCurrentTime(e.target.currentTime)

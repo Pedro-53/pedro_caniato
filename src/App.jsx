@@ -2,64 +2,13 @@ import { useEffect, useRef } from 'react'
 import PlayerScreen from './components/PlayerScreen'
 import usePlayerStore from './store/usePlayerStore'
 import playerImg from './assets/player.png'
+import buttonsMobile from './assets/player_buttons_mobile.png'
 import PlayerButtons from './components/PlayerButtons'
 import upImg from './assets/up.png'
 import downImg from './assets/down.png'
 import GlobalAudioPlayer from './components/GlobalAudioPlayer'
 import FooterOverlay from './components/FooterOverlay'
-
-/**
- * ═══════════════════════════════════════════════════════
- *  COMO USAR OS BOTÕES DO PLAYER
- * ═══════════════════════════════════════════════════════
- *
- *  Importe o store onde precisar:
- *    import usePlayerStore from './store/usePlayerStore'
- *
- *  Ações disponíveis:
- *    nextTab()      → próxima aba (Sobre > Interesses > Músicas)
- *    prevTab()      → aba anterior
- *    togglePlay()   → play / pause da música atual
- *    play()         → play
- *    pause()        → pause
- *    volumeUp()     → +10%
- *    volumeDown()   → -10%
- *    setVolume(n)   → valor exato 0-100
- *
- *  Leitura de estado global:
- *    currentSong    → { name, url } | null  ← variável global da música
- *    isPlaying      → boolean
- *    volume         → 0-100
- *    activeTab      → 'about' | 'interests' | 'music'
- *
- *  Exemplo de botão externo:
- *    const togglePlay = usePlayerStore(s => s.togglePlay)
- *    <button onClick={togglePlay}>▶/‖</button>
- *  
- *    const nextTab = usePlayerStore(s => s.nextTab)
- *    <button onClick={nextTab}>▶/‖</button>
- *
- * ═══════════════════════════════════════════════════════
- *  COMO ADICIONAR MÚSICAS
- * ═══════════════════════════════════════════════════════
- *
- *  Coloque seus arquivos .mp3 / .ogg / .wav em:
- *    public/music/
- *
- *  O código abaixo usa import.meta.glob para listar automaticamente.
- *  Exemplo: public/music/minhamusica.mp3 aparece na lista como "minhamusica".
- *
- * ═══════════════════════════════════════════════════════
- *  COMO POSICIONAR A TELA
- * ═══════════════════════════════════════════════════════
- *
- *  Ajuste as propriedades CSS de .screen-overlay:
- *    top, left   → posição sobre a imagem
- *    width, height → tamanho da tela
- *    transform   → rotação se necessário
- *
- * ═══════════════════════════════════════════════════════
- */
+import mobileHeader from './assets/mobile_header.png'
 
 
 // ── Carrega músicas de /src/assets/music/ ─────────────────
@@ -180,68 +129,130 @@ export default function App() {
   }, [setSongs])
 
   return (
-    <div className="player-root">
-      {/* ── Imagem do player ──────────────────────────── */}
-      <div className="player-wrapper">
-        <img
-          src={playerImg}
-          alt="MP3 Player"
-          className="player-img"
-          draggable={false}
-        />
 
-        {/* ── Tela CRT posicionada sobre a imagem ──────
-            Ajuste top, left, width, height para encaixar
-            no ecrã do seu player.png                    */}
-        <div className="screen-overlay">
-          <PlayerScreen />
+    <div className="app-shell">
+
+      {/* ===================================================== */}
+      {/* DESKTOP PLAYER */}
+      {/* ===================================================== */}
+
+      <div className="desktop-player">
+
+        <div className="player-wrapper">
+
+          <img
+            src={playerImg}
+            alt="MP3 Player"
+            className="player-img"
+            draggable={false}
+          />
+
+          <div className="screen-overlay">
+            <PlayerScreen />
+          </div>
+
+          <div className="footer-overlay">
+            <FooterOverlay />
+          </div>
+
+          <PlayerButtons />
+
+          {/* UP */}
+          <button
+            className="up-btn"
+            onMouseDown={() => startHold(upBtn)}
+            onMouseUp={stopHold}
+            onMouseLeave={stopHold}
+            onTouchStart={() => startHold(upBtn)}
+            onTouchEnd={stopHold}
+          >
+            <img src={upImg} alt="" draggable={false} />
+          </button>
+
+          {/* DOWN */}
+          <button
+            className="down-btn"
+            onMouseDown={() => startHold(downBtn)}
+            onMouseUp={stopHold}
+            onMouseLeave={stopHold}
+            onTouchStart={() => startHold(downBtn)}
+            onTouchEnd={stopHold}
+          >
+            <img src={downImg} alt="" draggable={false} />
+          </button>
+
         </div>
-
-        <div className="footer-overlay">
-          <FooterOverlay/>
-        </div>
-
-        {/* ── Posicione seus botões aqui ─────────────────
-          Exemplo: */}
-        <PlayerButtons />
-
-        {/* ── UP ───────────────────────────── */}
-        <button
-          className="up-btn"
-
-          onMouseDown={() => startHold(upBtn)}
-
-          onMouseUp={stopHold}
-
-          onMouseLeave={stopHold}
-
-          onTouchStart={() => startHold(upBtn)}
-
-          onTouchEnd={stopHold}
-        >
-          <img src={upImg} alt="" draggable={false} />
-        </button>
-
-        {/* ── DOWN ─────────────────────────── */}
-        <button
-          className="down-btn"
-
-          onMouseDown={() => startHold(downBtn)}
-
-          onMouseUp={stopHold}
-
-          onMouseLeave={stopHold}
-
-          onTouchStart={() => startHold(downBtn)}
-
-          onTouchEnd={stopHold}
-        >
-          <img src={downImg} alt="" draggable={false} />
-        </button>
 
       </div>
 
+
+      {/* ===================================================== */}
+      {/* MOBILE PLAYER */}
+      {/* ===================================================== */}
+
+      <div className="mobile-layout">
+
+        {/* HEADER */}
+        <header className="mobile-header">
+
+          {/* futura imagem */}
+          <div className="mobile-header-image">
+            <img
+              src={mobileHeader}
+              alt="Mobile Header"
+              className="mobile-header-img"
+              draggable={false}
+            />
+          </div>
+
+          <div className="footer-overlay-mobile">
+            <FooterOverlay />
+          </div>
+
+        </header>
+
+
+        {/* CONTEÚDO */}
+        <main className="mobile-content">
+
+          <PlayerScreen mobile />
+
+        </main>
+
+
+        {/* CONTROLES FIXOS */}
+        <div className="mobile-controls">
+
+          <img
+            src={buttonsMobile}
+            alt="Mobile MP3 Player"
+            className="mobile-player-img"
+            draggable={false}
+          />
+
+          <PlayerButtons mobile />
+
+          {/* UP */}
+          <button
+            className="up-btn mobile-up-btn"
+            onClick={upBtn}
+          >
+            <img src={upImg} alt="" draggable={false} />
+          </button>
+
+          {/* DOWN */}
+          <button
+            className="down-btn mobile-down-btn"
+            onClick={downBtn}
+          >
+            <img src={downImg} alt="" draggable={false} />
+          </button>
+
+        </div>
+
+      </div>
       <GlobalAudioPlayer />
+
     </div>
   )
 }

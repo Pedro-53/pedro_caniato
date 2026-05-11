@@ -1,4 +1,7 @@
 import maracana from "../../assets/places/maracana.jpg"
+import sc from "../../assets/places/sc.jpg"
+import ms from "../../assets/places/ms.jpeg"
+import pr from "../../assets/places/pr.jpeg"
 
 /**
  * Aba "Sobre mim"
@@ -6,11 +9,10 @@ import maracana from "../../assets/places/maracana.jpg"
  */
 export default function AboutMe() {
   const lines = [
-    { label: 'nome',     value: 'Pedro Caniato' },
-    { label: 'cidade',   value: 'Apucarana - PR, BR' },
-    { label: 'função',   value: 'Desenvolvedor / Designer' },
-    { label: 'estudante',   value: 'Analise e desenvolvimetno de sistemas' },
-    { label: 'contato',  value: 'caniatopedro53@email.com' },
+    { label: 'nome', value: 'Pedro Caniato' },
+    { label: 'função', value: 'Desenvolvedor / Designer' },
+    { label: 'estudante', value: 'Analise e desenvolvimetno de sistemas' },
+    { label: 'contato', value: 'caniatopedro53@email.com' },
   ]
 
   return (
@@ -28,14 +30,44 @@ export default function AboutMe() {
 
       <hr className="crt-divider" />
 
-      <div className="crt-line">
-        <span className="crt-prompt">&gt;</span>
-        <span className="crt-text" style={{ opacity: 0.7, fontStyle: 'italic' }}>
-          Uma frase curta sobre você aqui.
-        </span>
-      </div>
+      <div style={{display:"flex", flexDirection:"column"}}>
 
-        <img src={maracana} alt="" style={{width: "100%"}} />
+        <div className="crt-line">
+          <span className="crt-prompt">&gt;</span>
+          <span className="crt-text" style={{ opacity: 0.7, fontStyle: 'italic' }}>
+            Sou programador e estudante de análise e desenvolvimento de sistemas.
+          </span>
+        </div>
+
+        <div className="crt-line">
+          <span className="crt-prompt">&gt;</span>
+          <span className="crt-text" style={{ opacity: 0.7, fontStyle: 'italic' }}>
+            Gosto de tecnologia, cerveja e viajar.
+          </span>
+        </div>
+
+        <span className="crt-text" style={{ opacity: 0.7, fontStyle: 'italic' }}>
+          Rio
+        </span>
+
+        <img src={maracana} alt="" className="places-img" />
+
+        <span className="crt-text" style={{ opacity: 0.7, fontStyle: 'italic' }}>
+          SC
+        </span>
+        <img src={sc} alt="" className="places-img" />
+
+        <span className="crt-text" style={{ opacity: 0.7, fontStyle: 'italic' }}>
+          MS
+        </span>
+        <img src={ms} alt="" className="places-img" />
+
+        <span className="crt-text" style={{ opacity: 0.7, fontStyle: 'italic' }}>
+          PR
+        </span>
+        <img src={pr} alt="" className="places-img" />
+
+      </div>
 
     </div>
   )

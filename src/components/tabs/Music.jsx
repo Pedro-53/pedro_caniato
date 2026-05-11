@@ -78,11 +78,11 @@ export default function Music() {
 
   return (
     <div>
-      <p className="crt-title">músicas favoritas</p>
+      <p className="crt-title">minhas músicas favoritas</p>
       <hr className="crt-divider" />
 
       {/* Volume visual */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+      {/* <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
         <span className="crt-label" style={{ fontSize: 12 }}>vol</span>
         <div className="crt-vol-bar">
           {Array.from({ length: segments }).map((_, i) => (
@@ -93,7 +93,7 @@ export default function Music() {
           ))}
         </div>
         <span className="crt-text" style={{ fontSize: 11 }}>{volume}%</span>
-      </div>
+      </div> */}
 
       {/* Lista de faixas */}
       {songs.length === 0 ? (

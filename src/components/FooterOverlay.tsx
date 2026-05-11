@@ -1,6 +1,6 @@
 import usePlayerStore from '../store/usePlayerStore'
 
-function formatTime(time) {
+function formatTime(time: any) {
 
     if (!time || isNaN(time)) return '0:00'
 
